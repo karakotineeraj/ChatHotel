@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+</html>
+	<head>
+		<title>Chat Hotel</title>
+		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div id="msgBoard"></div>
+		<form id="msgForm">
+			<input id="msgBox" type="text" />
+			<button id="submitBtn" type="submit">Submit</button>
+		</form>
+
+		<script>
+			let ws = new WebSocket("ws://localhost:5000/join");
+			let btn = document.getElementById("submitBtn");
+			let msgBoard = document.getElementById("msgBoard");
+
+			ws.addEventListener("open", (event) => {
+				ws.send("Connected")
+			});
+
+			ws.addEventListener("message", (event) => {
+				let msg = event.data;
+				let para = document.createElement("p");
+
+				console.log(event.data);
+				para.innerHTML = msg;
+				msgBoard.appendChild(para);
+			});
+			
+		</script>
+	</body>
+</html>
